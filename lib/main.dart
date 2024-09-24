@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/pages/Login.dart';
+import 'package:movie_app/pages/authenticationPages/login.dart';
+import 'package:movie_app/pages/authenticationPages/register.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +13,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Movie App',
-      home: Login()
+      home: Login(),
+      // home: Register()
+
     );
   }
 }
