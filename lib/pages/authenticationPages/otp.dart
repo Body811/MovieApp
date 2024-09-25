@@ -1,18 +1,21 @@
-
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/authenticationUtils.dart';
 
-class ForgotPassword extends StatelessWidget {
-  ForgotPassword({super.key});
 
-  final TextEditingController _emailController = TextEditingController();
+
+
+
+
+class Otp extends StatelessWidget {
+  const Otp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AuthenticationAppbar.getAppbar(context: context, backgroundColor: const Color(0xFFFFFFFF)),
-      body: Container(
+      backgroundColor: Colors.white,
+      appBar: AuthenticationAppbar.getAppbar(context: context, backgroundColor: Colors.white),
+      body:  Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration:  const BoxDecoration(
@@ -27,30 +30,25 @@ class ForgotPassword extends StatelessWidget {
           child: Column(
             children: <Widget>[
               const SizedBox(height: 35),
-              WelcomeText.getText(text: "Forgot Password?"),
-              const SizedBox(height: 10),
-              const Text("Don't worry! It occurs. Please enter the email address linked with your account",
+              WelcomeText.getText(text: "OTP Verification"),
+              const Text("Enter the verification code we just sent on your email address.",
                 style: TextStyle(
                   color: Color(0xFF67686D),
                   fontSize:16,
                 ),
               ),
               const SizedBox(height: 25),
-              InputField.getInputField(
-                hintText: "Enter Your Email",
-                controller: _emailController,
-                icon: Icons.email,
-              ),
-              const SizedBox(height: 30),
-              AuthenticationScreenButton.getButton(text: "Send Code", onPress: (){}),
+              const OtpField(),
+              const SizedBox(height: 25),
+              AuthenticationScreenButton.getButton(text: "Verify", onPress: (){}),
               const SizedBox(height:5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Remember Password?", style: TextStyle(fontSize: 15, fontWeight:FontWeight.w600, color: Color(0xFF1E232C))),
+                  const Text("Didn't receive the code?", style: TextStyle(fontSize: 15, fontWeight:FontWeight.w600, color: Color(0xFF1E232C))),
                   InkWell(
                       onTap:(){Navigator.pop(context);},
-                      child: const Text(" login",style: TextStyle(fontSize: 15, fontWeight:FontWeight.w600 ,color: Color(0xFF35C2C1))))
+                      child: const Text(" Resend",style: TextStyle(fontSize: 15, fontWeight:FontWeight.w600 ,color: Color(0xFF35C2C1))))
                 ],
               ),
             ],
@@ -60,5 +58,7 @@ class ForgotPassword extends StatelessWidget {
     );
   }
 }
+
+
 
 

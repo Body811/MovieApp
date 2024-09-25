@@ -13,7 +13,7 @@ class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AuthenticationAppbar.getAppbar(context: context),
+      appBar: AuthenticationAppbar.getAppbar(context: context,backgroundColor: const Color(0xFFFBFBFB)),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

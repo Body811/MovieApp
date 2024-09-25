@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/pages/authenticationPages/forgot_password.dart';
 import 'package:movie_app/utils/authenticationUtils.dart';
 import 'package:movie_app/pages/authenticationPages/register.dart';
 
@@ -14,7 +15,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(backgroundColor: Colors.white,),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -43,7 +44,11 @@ class Login extends StatelessWidget {
                const SizedBox(height: 3),
                Align(
                 alignment:Alignment.topRight,
-                child: InkWell(onTap:() {} , child: const Text("Forgot Password?",style: TextStyle(color: Color(0xFF67686D))))
+                child: InkWell(
+                    onTap:() {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword()));
+                    },
+                    child: const Text("Forgot Password?",style: TextStyle(color: Color(0xFF67686D))))
               ),
               const SizedBox(height: 15),
               AuthenticationScreenButton.getButton(text: "Login", onPress: (){}),

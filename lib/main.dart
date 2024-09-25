@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:movie_app/pages/authenticationPages/forgot_password.dart';
 import 'package:movie_app/pages/authenticationPages/login.dart';
+import 'package:movie_app/pages/authenticationPages/otp.dart';
 import 'package:movie_app/pages/authenticationPages/register.dart';
 
 
@@ -15,9 +18,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: GoogleFonts.urbanistTextTheme(Theme.of(context).textTheme)
+      ),
       title: 'Movie App',
-      home: Login(),
+      // home: Login(),
       // home: Register()
+      // home: ForgotPassword()
+      // home: CreateNewPassword()
+      home: const Otp()
 
     );
   }
