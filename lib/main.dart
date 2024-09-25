@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_app/pages/authenticationPages/forgot_password.dart';
-import 'package:movie_app/pages/authenticationPages/login.dart';
-import 'package:movie_app/pages/authenticationPages/otp.dart';
-import 'package:movie_app/pages/authenticationPages/register.dart';
-
+import 'package:movie_app/config/strings/app_strings.dart';
+import 'package:movie_app/config/theme/app_theme.dart';
+import 'package:movie_app/features/auth/pages/authenticationPages/otp.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,14 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: GoogleFonts.urbanistTextTheme(Theme.of(context).textTheme)
-      ),
-      title: 'Movie App',
-      // home: Login(),
-      // home: Register()
-      // home: ForgotPassword()
-      // home: CreateNewPassword()
+      theme: AppTheme.theme(),
+      title: AppStrings.AppTitle,
       home: const Otp()
 
     );
