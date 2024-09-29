@@ -23,8 +23,10 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen>
 with SingleTickerProviderStateMixin {
+
   late Future<MovieDetailsEntity> movieDetails;
   late TabController _tabController;
+
   String backDropBaseImageUrl = 'https://image.tmdb.org/t/p/w500';
   String posterBaseImageUrl = 'https://image.tmdb.org/t/p/w500';
 
@@ -140,7 +142,7 @@ with SingleTickerProviderStateMixin {
                                     style: TextStyle(
                                       color: AppColors.white,
                                       fontFamily: AppFonts.poppins,
-                                      fontSize: screenWidth * 0.045, // Responsive font size
+                                      fontSize: screenWidth * 0.045,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -148,7 +150,7 @@ with SingleTickerProviderStateMixin {
                                   Text(
                                     '${movieDetail.releaseDate.split('-')[0]} | ${movieDetail.runtime} min',
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color: AppColors.slateGray,
                                       fontSize: screenWidth * 0.04,
                                     ),
                                   ),
@@ -156,14 +158,14 @@ with SingleTickerProviderStateMixin {
                                   Text(
                                     movieDetail.category,
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color: AppColors.slateGray,
                                       fontSize: screenWidth * 0.04,
                                     ),
                                   ),
                                   SizedBox(height: screenHeight * 0.02),
                                   Row(
                                     children: [
-                                      Icon(Icons.star, color: Colors.yellow, size: screenWidth * 0.05), // Responsive icon size
+                                      Icon(Icons.star, color: Colors.yellow, size: screenWidth * 0.05),
                                       SizedBox(width: screenWidth * 0.02),
                                       Text(
                                         '9.5',
@@ -192,9 +194,9 @@ with SingleTickerProviderStateMixin {
                           children: [
                             TabBar(
                               controller: _tabController,
-                              indicatorColor: Colors.red,
-                              labelColor: Colors.black,
-                              unselectedLabelColor: Colors.grey,
+                              indicatorColor: AppColors.grayishBlue,
+                              labelColor: AppColors.black,
+                              unselectedLabelColor: AppColors.poloBlue,
                               tabs: const [
                                 Tab(text: 'About Movie'),
                                 Tab(text: 'Reviews'),

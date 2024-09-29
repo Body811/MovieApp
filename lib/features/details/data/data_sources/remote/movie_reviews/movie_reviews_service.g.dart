@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'movie_details_service.dart';
+part of 'movie_reviews_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'movie_details_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
-class _MovieDetailsService implements MovieDetailsService {
-  _MovieDetailsService(
+class _MovieReviewsService implements MovieReviewsService {
+  _MovieReviewsService(
     this._dio, {
     this.baseUrl,
     this.errorLogger,
@@ -24,8 +24,8 @@ class _MovieDetailsService implements MovieDetailsService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<MovieDetailsModel> getItem({
-    required num id,
+  Future<List<MovieReviewsModel>> getList({
+    num? id,
     Map<String, dynamic>? params,
   }) async {
     final _extra = <String, dynamic>{};
@@ -34,14 +34,14 @@ class _MovieDetailsService implements MovieDetailsService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<MovieDetailsModel>(Options(
+    final _options = _setStreamType<List<MovieReviewsModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '${id}',
+          '${id}/reviews',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -50,10 +50,13 @@ class _MovieDetailsService implements MovieDetailsService {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late MovieDetailsModel _value;
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<MovieReviewsModel> _value;
     try {
-      _value = MovieDetailsModel.fromJson(_result.data!);
+      _value = _result.data!
+          .map((dynamic i) =>
+              MovieReviewsModel.fromJson(i as Map<String, dynamic>))
+          .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

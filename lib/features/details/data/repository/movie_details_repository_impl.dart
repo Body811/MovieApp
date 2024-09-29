@@ -1,20 +1,20 @@
 import 'package:movie_app/config/config.dart';
 import 'package:movie_app/features/details/domain/entities/movie_details_entity.dart';
-import 'package:movie_app/features/details/domain/repository/movie_details_repository.dart';
+import 'package:movie_app/features/details/domain/repository/get_item_repo.dart';
 
 import '../data_sources/remote/movie_details/movie_details_service.dart';
 import '../models/movie_details_model.dart';
 
-class MovieDetailsRepositoryImpl implements MovieDetailsRepository {
+class MovieDetailsRepositoryImpl implements GetItemRepo<MovieDetailsEntity> {
   final MovieDetailsService _movieDetailsService;
 
   MovieDetailsRepositoryImpl(this._movieDetailsService);
 
   @override
-  Future<MovieDetailsEntity> get(int movieId) async {
+  Future<MovieDetailsEntity>  getItem({required num id, Map<String, dynamic>? params}) async {
     try {
       final movieDetailsModel = await _movieDetailsService.getItem(
-          id: movieId,
+          id: id,
           params: {
             'api_key': Config.API_KEY,
             'language': Config.LANGUAGE
