@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/features/auth/pages/authenticationPages/forgot_password.dart';
-import 'package:movie_app/features/auth/utils/authenticationUtils.dart';
+import 'package:movie_app/features/auth/utils/authentication_utils.dart';
 import 'package:movie_app/features/auth/pages/authenticationPages/register.dart';
 
 

@@ -8,9 +8,7 @@ class WelcomeText{
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(text,
-        style: GoogleFonts.urbanist(
-          textStyle: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700,),
-        ), // GoogleFonts
+        style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700,),
       ),
     );
   }
