@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/config/config.dart';
 import 'package:movie_app/config/strings/app_strings.dart';
 import 'package:movie_app/config/theme/app_colors.dart';
 import 'package:movie_app/config/theme/app_fonts.dart';
@@ -22,7 +23,7 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen>
-with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
 
   late Future<MovieDetailsEntity> movieDetails;
   late TabController _tabController;
@@ -57,7 +58,7 @@ with SingleTickerProviderStateMixin {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: false,
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
@@ -92,102 +93,54 @@ with SingleTickerProviderStateMixin {
             final movieDetail = snapshot.data!;
             return Stack(
               children: [
-                Align(
-                  alignment: const Alignment(0.5, -0.6),
+                Container(
+                  height: screenHeight,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(Config.detailsBackGroundImage),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
                   child: Container(
-                    height: screenHeight * 0.55,
+                    height: screenHeight * 0.3,
                     width: screenWidth,
                     decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
                       image: DecorationImage(
                         image: NetworkImage(backDropBaseImageUrl + movieDetail.backDropPath),
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  height: screenHeight ,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
+
+                Positioned(
+                  top: screenHeight * 0.2,
+                  left: screenWidth * 0.05,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.network(
+                      posterBaseImageUrl + movieDetail.posterPath,
+                      width: screenWidth * 0.27,
+                      height: screenHeight * 0.17,
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
                 SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: screenHeight * 0.3,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.network(
-                                posterBaseImageUrl + movieDetail.posterPath,
-                                width: screenWidth * 0.4,
-                                height: screenHeight * 0.3,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(width: screenWidth * 0.04),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    movieDetail.title,
-                                    style: TextStyle(
-                                      color: AppColors.white,
-                                      fontFamily: AppFonts.poppins,
-                                      fontSize: screenWidth * 0.045,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.01),
-                                  Text(
-                                    '${movieDetail.releaseDate.split('-')[0]} | ${movieDetail.runtime} min',
-                                    style: TextStyle(
-                                      color: AppColors.slateGray,
-                                      fontSize: screenWidth * 0.04,
-                                    ),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.01),
-                                  Text(
-                                    movieDetail.category,
-                                    style: TextStyle(
-                                      color: AppColors.slateGray,
-                                      fontSize: screenWidth * 0.04,
-                                    ),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.star, color: Colors.yellow, size: screenWidth * 0.05),
-                                      SizedBox(width: screenWidth * 0.02),
-                                      Text(
-                                        '9.5',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: screenWidth * 0.045,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                        height: screenHeight * 0.43,
                       ),
                       SizedBox(height: screenHeight * 0.03),
                       Container(
                         decoration: const BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +157,7 @@ with SingleTickerProviderStateMixin {
                               ],
                             ),
                             SizedBox(
-                              height: screenHeight * 0.5,
+                              height: screenHeight * 0.4,
                               child: TabBarView(
                                 controller: _tabController,
                                 children: [

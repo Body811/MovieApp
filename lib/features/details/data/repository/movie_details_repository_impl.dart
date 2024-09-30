@@ -35,6 +35,7 @@ class MovieDetailsRepositoryImpl implements GetItemRepo<MovieDetailsEntity> {
       runtime: model.runtime ?? 0,
       overview: model.overview ?? '',
       title: model.title ?? '',
+      voteAverage: model.voteAverage ?? 0.0,
     );
   }
 }

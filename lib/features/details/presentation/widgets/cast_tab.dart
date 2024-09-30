@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class CastTab extends StatelessWidget {
-  final int movieId;
+  final num movieId;
 
   const CastTab({super.key, required this.movieId});
 

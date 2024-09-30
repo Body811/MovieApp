@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class ReviewsTab extends StatelessWidget {
-  final int movieId;
+  final num movieId;
 
   const ReviewsTab({super.key, required this.movieId});
 

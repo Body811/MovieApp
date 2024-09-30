@@ -6,8 +6,10 @@ class MovieDetailsEntity {
   final num runtime;
   final String title;
   final String overview;
+  final num voteAverage;
 
   MovieDetailsEntity({
+    required this.voteAverage,
     required this.posterPath,
     required this.backDropPath,
     required this.releaseDate,
