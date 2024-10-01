@@ -16,8 +16,8 @@ class MovieReviewsRepoImpl implements GetItemsListRepo<MovieReviewsEntity> {
       final movieReviewsModel = await _movieReviewsService.getList(
         id: id,
         params: {
-          'api_key': Config.API_KEY,
-          'language': Config.LANGUAGE
+          'api_key': Config.apiKey,
+          'language': Config.language
         }
       );
       return _mapModelToEntity(movieReviewsModel[0]);

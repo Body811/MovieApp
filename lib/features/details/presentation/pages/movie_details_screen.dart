@@ -28,9 +28,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
   late Future<MovieDetailsEntity> movieDetails;
   late TabController _tabController;
 
-  String backDropBaseImageUrl = 'https://image.tmdb.org/t/p/w500';
-  String posterBaseImageUrl = 'https://image.tmdb.org/t/p/w500';
-
   @override
   void initState() {
     super.initState();
@@ -63,12 +60,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
         backgroundColor: AppColors.white,
         elevation: 0,
         title: const Text(AppStrings.detailsTitle),
-        titleTextStyle: TextStyle(
-          color: AppColors.black,
-          fontWeight: FontWeight.w700,
-          fontSize: screenWidth * 0.05,
-          fontFamily: AppFonts.montserrat,
-        ),
+        titleTextStyle: AppFonts.header1,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -110,24 +102,96 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
                       image: DecorationImage(
-                        image: NetworkImage(backDropBaseImageUrl + movieDetail.backDropPath),
+                        image: NetworkImage(movieDetail.backDropPath),
                         fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
-
+                Positioned(
+                    top: screenHeight * 0.25,
+                    left: screenWidth * 0.77,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.star_border, color: AppColors.orange),
+                        SizedBox(width: screenWidth * 0.02),
+                        Text(movieDetail.voteAverage.toString(), style: AppFonts.header3),
+                      ],
+                    )
+                ),
                 Positioned(
                   top: screenHeight * 0.2,
                   left: screenWidth * 0.05,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      posterBaseImageUrl + movieDetail.posterPath,
-                      width: screenWidth * 0.27,
-                      height: screenHeight * 0.17,
-                      fit: BoxFit.fill,
-                    ),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          movieDetail.posterPath,
+                          width: screenWidth * 0.27,
+                          height: screenHeight * 0.17,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ]
+                  ),
+                ),
+                Align(
+                  alignment: const Alignment(0.5, -0.27),
+                  child: SizedBox(
+                    width: screenWidth * 0.5,
+                    child: Text(
+                        movieDetail.title,
+                        style: AppFonts.body1,
+                      ),
+                  ),
+                ),
+                Align(
+                  alignment: const Alignment(0.0, -0.1),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(Config.calender, color: AppColors.poloBlue,),
+                          SizedBox(width: screenWidth * 0.01),
+                          Text(
+                            movieDetail.releaseDate,
+                            style: AppFonts.header2
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(width: screenWidth * 0.02),
+                      const Text('|'),
+                      SizedBox(width: screenWidth * 0.02),
+
+                      Row(
+                        children: [
+                         Image.asset(Config.clock, color: AppColors.poloBlue),
+                          SizedBox(width: screenWidth * 0.01),
+                          Text(
+                            movieDetail.runtime.toString(),
+                            style: AppFonts.header2
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(width: screenWidth * 0.02),
+                      const Text('|'),
+                      SizedBox(width: screenWidth * 0.02),
+
+                      Row(
+                        children: [
+                          Image.asset(Config.ticketIcon, color: AppColors.poloBlue),
+                          SizedBox(width: screenWidth * 0.01),
+                          Text(
+                            movieDetail.category,
+                            style: AppFonts.header2
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 SingleChildScrollView(
@@ -147,7 +211,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                           children: [
                             TabBar(
                               controller: _tabController,
-                              indicatorColor: AppColors.grayishBlue,
+                              indicatorColor: AppColors.black,
                               labelColor: AppColors.black,
                               unselectedLabelColor: AppColors.poloBlue,
                               tabs: const [

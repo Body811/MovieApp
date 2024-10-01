@@ -7,6 +7,7 @@ import '../models/movie_details_model.dart';
 
 class MovieDetailsRepositoryImpl implements GetItemRepo<MovieDetailsEntity> {
   final MovieDetailsService _movieDetailsService;
+  final imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
 
   MovieDetailsRepositoryImpl(this._movieDetailsService);
 
@@ -16,8 +17,8 @@ class MovieDetailsRepositoryImpl implements GetItemRepo<MovieDetailsEntity> {
       final movieDetailsModel = await _movieDetailsService.getItem(
           id: id,
           params: {
-            'api_key': Config.API_KEY,
-            'language': Config.LANGUAGE
+            'api_key': Config.apiKey,
+            'language': Config.language
           }
       );
       return _mapModelToEntity(movieDetailsModel);
@@ -28,14 +29,14 @@ class MovieDetailsRepositoryImpl implements GetItemRepo<MovieDetailsEntity> {
 
   MovieDetailsEntity _mapModelToEntity(MovieDetailsModel model) {
     return MovieDetailsEntity(
-      posterPath: model.posterPath ?? '',
-      backDropPath: model.backdropPath ?? '',
+      posterPath: imageBaseUrl + (model.posterPath ?? ''),
+      backDropPath: imageBaseUrl + (model.backdropPath ?? ''),
       releaseDate: model.releaseDate ?? '',
       category: model.genres?.map((genre) => genre.name ?? '').join(', ') ?? '',
       runtime: model.runtime ?? 0,
       overview: model.overview ?? '',
       title: model.title ?? '',
-      voteAverage: model.voteAverage ?? 0.0,
+      voteAverage: double.parse(model.voteAverage?.toStringAsFixed(2) ?? '0.00'),
     );
   }
 }
