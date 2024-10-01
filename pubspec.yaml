@@ -112,6 +112,21 @@ flutter:
           weight: 800
         - asset: assets/fonts/poppins/Poppins-Black.ttf
           weight: 900
+    - family: urbanist
+      fonts:
+        - asset: assets/fonts/urbanist/Urbanist-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/urbanist/Urbanist-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/urbanist/Urbanist-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/urbanist/Urbanist-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/urbanist/Urbanist-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/urbanist/Urbanist-Black.ttf
+          weight: 900
+  
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

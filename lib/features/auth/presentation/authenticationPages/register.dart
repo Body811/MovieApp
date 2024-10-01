@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/features/auth/utils/authenticationUtils.dart';
+import 'package:movie_app/features/auth/utils/authentication_utils.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});
