@@ -24,7 +24,7 @@ class _MovieReviewsService implements MovieReviewsService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<MovieReviewsModel>> getList({
+  Future<MovieReviewsModel> fetch({
     num? id,
     Map<String, dynamic>? params,
   }) async {
@@ -34,7 +34,7 @@ class _MovieReviewsService implements MovieReviewsService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<MovieReviewsModel>>(Options(
+    final _options = _setStreamType<MovieReviewsModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -50,13 +50,10 @@ class _MovieReviewsService implements MovieReviewsService {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<MovieReviewsModel> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late MovieReviewsModel _value;
     try {
-      _value = _result.data!
-          .map((dynamic i) =>
-              MovieReviewsModel.fromJson(i as Map<String, dynamic>))
-          .toList();
+      _value = MovieReviewsModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

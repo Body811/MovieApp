@@ -12,6 +12,6 @@ class GetMovieReviewsUseCase implements UseCase<List<MovieReviewsEntity>, num> {
     if (params == null) {
       throw Exception('Params cannot be null');
     }
-    return movieReviewsRepoImpl.getItems(id: params);
+    return movieReviewsRepoImpl.fetch(id: params);
   }
 }

@@ -14,7 +14,7 @@ import '../widgets/cast_tab.dart';
 import '../widgets/reviews_tab.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
-  final int movieId;
+  final num movieId;
 
   const MovieDetailsScreen({super.key, required this.movieId});
 

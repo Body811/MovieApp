@@ -24,8 +24,8 @@ class _MovieDetailsService implements MovieDetailsService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<MovieDetailsModel> getItem({
-    required num id,
+  Future<MovieDetailsModel> fetch({
+    num? id,
     Map<String, dynamic>? params,
   }) async {
     final _extra = <String, dynamic>{};

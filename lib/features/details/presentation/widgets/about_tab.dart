@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:movie_app/config/theme/app_fonts.dart';
 
 import '../../domain/entities/movie_details_entity.dart';
 
@@ -15,11 +16,9 @@ class AboutMovieTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            movieDetail.title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              movieDetail.overview,
+              style: AppFonts.body5,
           ),
-          const SizedBox(height: 8),
-          Text(movieDetail.overview),
         ],
       ),
     );

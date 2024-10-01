@@ -13,6 +13,6 @@ class GetMovieCastUseCase implements UseCase<List<MovieCastEntity>, num> {
     if (params == null) {
       throw Exception('Params cannot be null');
     }
-    return await _movieCastRepository.getItems(id: params);
+    return await _movieCastRepository.fetch(id: params);
   }
 }

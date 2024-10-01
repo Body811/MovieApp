@@ -12,6 +12,6 @@ class GetMovieDetailsUseCase implements UseCase<MovieDetailsEntity, num> {
     if (params == null) {
       throw Exception('Params cannot be null');
     }
-    return await _movieDetailsRepository.getItem(id: params);
+    return await _movieDetailsRepository.fetch(id: params);
   }
 }
