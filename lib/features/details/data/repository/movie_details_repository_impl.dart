@@ -35,7 +35,7 @@ class MovieDetailsRepositoryImpl implements Repository<MovieDetailsEntity> {
       runtime: model.runtime ?? 0,
       overview: model.overview ?? '',
       title: model.title ?? '',
-      voteAverage: double.parse(model.voteAverage?.toStringAsFixed(2) ?? '0.00'),
+      voteAverage: double.parse(model.voteAverage?.toStringAsFixed(1) ?? '0.00'),
     );
   }
 }
