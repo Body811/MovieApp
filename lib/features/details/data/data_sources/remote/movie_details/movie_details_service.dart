@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:movie_app/features/details/data/data_sources/remote/remote_datasource.dart';
+import 'package:movie_app/features/details/data/data_sources/remote/interfaces/remote_datasource.dart';
 import 'package:movie_app/features/details/data/models/movie_details_model.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -11,8 +11,8 @@ abstract class MovieDetailsService implements RemoteDatasource<MovieDetailsModel
 
   @override
   @GET('{id}')
-  Future<MovieDetailsModel> getItem({
-    @Path('id') required int id,
+  Future<MovieDetailsModel> fetch({
+    @Path('id') num? id,
     @Queries() Map<String, dynamic>? params
   });
 }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/config/config.dart';
 import 'package:movie_app/config/strings/app_strings.dart';
 import 'package:movie_app/config/theme/app_colors.dart';
 import 'package:movie_app/config/theme/app_fonts.dart';
@@ -13,7 +14,7 @@ import '../widgets/cast_tab.dart';
 import '../widgets/reviews_tab.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
-  final int movieId;
+  final num movieId;
 
   const MovieDetailsScreen({super.key, required this.movieId});
 
@@ -22,11 +23,10 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen>
-with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
+
   late Future<MovieDetailsEntity> movieDetails;
   late TabController _tabController;
-  String backDropBaseImageUrl = 'https://image.tmdb.org/t/p/w500';
-  String posterBaseImageUrl = 'https://image.tmdb.org/t/p/w500';
 
   @override
   void initState() {
@@ -55,17 +55,12 @@ with SingleTickerProviderStateMixin {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: false,
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
         title: const Text(AppStrings.detailsTitle),
-        titleTextStyle: TextStyle(
-          color: AppColors.black,
-          fontWeight: FontWeight.w700,
-          fontSize: screenWidth * 0.05,
-          fontFamily: AppFonts.montserrat,
-        ),
+        titleTextStyle: AppFonts.header1,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -90,111 +85,135 @@ with SingleTickerProviderStateMixin {
             final movieDetail = snapshot.data!;
             return Stack(
               children: [
-                Align(
-                  alignment: const Alignment(0.5, -0.6),
+                Container(
+                  height: screenHeight,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(Config.detailsBackGroundImage),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
                   child: Container(
-                    height: screenHeight * 0.55,
+                    height: screenHeight * 0.3,
                     width: screenWidth,
                     decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
                       image: DecorationImage(
-                        image: NetworkImage(backDropBaseImageUrl + movieDetail.backDropPath),
-                        fit: BoxFit.fill,
+                        image: NetworkImage(movieDetail.backDropPath),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  height: screenHeight ,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
+                Positioned(
+                    top: screenHeight * 0.25,
+                    left: screenWidth * 0.77,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.star_border, color: AppColors.orange),
+                        SizedBox(width: screenWidth * 0.02),
+                        Text(movieDetail.voteAverage.toString(), style: AppFonts.header3),
+                      ],
+                    )
+                ),
+                Positioned(
+                  top: screenHeight * 0.2,
+                  left: screenWidth * 0.05,
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          movieDetail.posterPath,
+                          width: screenWidth * 0.27,
+                          height: screenHeight * 0.17,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ]
+                  ),
+                ),
+                Align(
+                  alignment: const Alignment(0.5, -0.27),
+                  child: SizedBox(
+                    width: screenWidth * 0.5,
+                    child: Text(
+                        movieDetail.title,
+                        style: AppFonts.body1,
+                      ),
+                  ),
+                ),
+                Align(
+                  alignment: const Alignment(0.0, -0.1),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(Config.calender, color: AppColors.poloBlue,),
+                          SizedBox(width: screenWidth * 0.01),
+                          Text(
+                            movieDetail.releaseDate,
+                            style: AppFonts.header2
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(width: screenWidth * 0.02),
+                      const Text('|'),
+                      SizedBox(width: screenWidth * 0.02),
+
+                      Row(
+                        children: [
+                         Image.asset(Config.clock, color: AppColors.poloBlue),
+                          SizedBox(width: screenWidth * 0.01),
+                          Text(
+                            movieDetail.runtime.toString(),
+                            style: AppFonts.header2
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(width: screenWidth * 0.02),
+                      const Text('|'),
+                      SizedBox(width: screenWidth * 0.02),
+
+                      Row(
+                        children: [
+                          Image.asset(Config.ticketIcon, color: AppColors.poloBlue),
+                          SizedBox(width: screenWidth * 0.01),
+                          Text(
+                            movieDetail.category,
+                            style: AppFonts.header2
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: screenHeight * 0.3,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.network(
-                                posterBaseImageUrl + movieDetail.posterPath,
-                                width: screenWidth * 0.4,
-                                height: screenHeight * 0.3,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(width: screenWidth * 0.04),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    movieDetail.title,
-                                    style: TextStyle(
-                                      color: AppColors.white,
-                                      fontFamily: AppFonts.poppins,
-                                      fontSize: screenWidth * 0.045, // Responsive font size
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.01),
-                                  Text(
-                                    '${movieDetail.releaseDate.split('-')[0]} | ${movieDetail.runtime} min',
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: screenWidth * 0.04,
-                                    ),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.01),
-                                  Text(
-                                    movieDetail.category,
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: screenWidth * 0.04,
-                                    ),
-                                  ),
-                                  SizedBox(height: screenHeight * 0.02),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.star, color: Colors.yellow, size: screenWidth * 0.05), // Responsive icon size
-                                      SizedBox(width: screenWidth * 0.02),
-                                      Text(
-                                        '9.5',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: screenWidth * 0.045,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                        height: screenHeight * 0.43,
                       ),
                       SizedBox(height: screenHeight * 0.03),
                       Container(
                         decoration: const BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TabBar(
                               controller: _tabController,
-                              indicatorColor: Colors.red,
-                              labelColor: Colors.black,
-                              unselectedLabelColor: Colors.grey,
+                              indicatorColor: AppColors.black,
+                              labelColor: AppColors.black,
+                              unselectedLabelColor: AppColors.poloBlue,
                               tabs: const [
                                 Tab(text: 'About Movie'),
                                 Tab(text: 'Reviews'),
@@ -202,7 +221,7 @@ with SingleTickerProviderStateMixin {
                               ],
                             ),
                             SizedBox(
-                              height: screenHeight * 0.5,
+                              height: screenHeight * 0.4,
                               child: TabBarView(
                                 controller: _tabController,
                                 children: [

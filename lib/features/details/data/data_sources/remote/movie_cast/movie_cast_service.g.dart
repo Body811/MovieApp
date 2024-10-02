@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'movie_details_service.dart';
+part of 'movie_cast_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'movie_details_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
-class _MovieDetailsService implements MovieDetailsService {
-  _MovieDetailsService(
+class _MovieCastService implements MovieCastService {
+  _MovieCastService(
     this._dio, {
     this.baseUrl,
     this.errorLogger,
@@ -24,7 +24,7 @@ class _MovieDetailsService implements MovieDetailsService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<MovieDetailsModel> fetch({
+  Future<MovieCastModel> fetch({
     num? id,
     Map<String, dynamic>? params,
   }) async {
@@ -34,14 +34,14 @@ class _MovieDetailsService implements MovieDetailsService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<MovieDetailsModel>(Options(
+    final _options = _setStreamType<MovieCastModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '${id}',
+          '${id}/credits',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -51,9 +51,9 @@ class _MovieDetailsService implements MovieDetailsService {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late MovieDetailsModel _value;
+    late MovieCastModel _value;
     try {
-      _value = MovieDetailsModel.fromJson(_result.data!);
+      _value = MovieCastModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
