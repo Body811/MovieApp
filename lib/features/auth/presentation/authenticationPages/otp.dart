@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/features/auth/utils/authentication_utils.dart';
+
+import '../widgets/authentication_appbar.dart';
+import '../widgets/authentication_screen_button.dart';
+import '../widgets/otp_field.dart';
+import '../widgets/welcome_text.dart';
+
 
 class Otp extends StatelessWidget {
   const Otp({super.key});
@@ -9,15 +14,13 @@ class Otp extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AuthenticationAppbar.getAppbar(
-          context: context, backgroundColor: Colors.white),
+      appBar: AuthenticationAppbar(backgroundColor: Colors.white),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             image: DecorationImage(
-          image: AssetImage(
-              'assets/Film_elements_on_white_background_with_copy_space.png'),
+          image: AssetImage('assets/images/backgrounds/Film elements on white background with copy space.png'),
           fit: BoxFit.cover,
           alignment: Alignment.bottomCenter,
         )),
@@ -26,7 +29,7 @@ class Otp extends StatelessWidget {
           child: Column(
             children: <Widget>[
               const SizedBox(height: 35),
-              WelcomeText.getText(text: "OTP Verification"),
+              WelcomeText(text: "OTP Verification"),
               const Text(
                 "Enter the verification code we just sent on your email address.",
                 style: TextStyle(
@@ -37,7 +40,7 @@ class Otp extends StatelessWidget {
               const SizedBox(height: 25),
               const OtpField(),
               const SizedBox(height: 25),
-              AuthenticationScreenButton.getButton(
+              AuthenticationScreenButton(
                   text: "Verify", onPress: () {}),
               const SizedBox(height: 5),
               Row(

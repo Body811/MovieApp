@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/features/auth/utils/authentication_utils.dart';
+import '../widgets/authentication_appbar.dart';
+import '../widgets/authentication_screen_button.dart';
+import '../widgets/input_field.dart';
+import '../widgets/welcome_text.dart';
 
 class ForgotPassword extends StatelessWidget {
   ForgotPassword({super.key});
@@ -10,15 +13,13 @@ class ForgotPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AuthenticationAppbar.getAppbar(
-          context: context, backgroundColor: const Color(0xFFFFFFFF)),
+      appBar: const AuthenticationAppbar(backgroundColor: Color(0xFFFFFFFF)),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             image: DecorationImage(
-          image: AssetImage(
-              'assets/Film_elements_on_white_background_with_copy_space.png'),
+          image: AssetImage('assets/images/backgrounds/Film elements on white background with copy space.png'),
           fit: BoxFit.cover,
           alignment: Alignment.bottomCenter,
         )),
@@ -27,23 +28,22 @@ class ForgotPassword extends StatelessWidget {
           child: Column(
             children: <Widget>[
               const SizedBox(height: 35),
-              WelcomeText.getText(text: "Forgot Password?"),
+              const WelcomeText(text: "Forgot Password?"),
               const SizedBox(height: 10),
-              const Text(
-                "Don't worry! It occurs. Please enter the email address linked with your account",
+              const Text("Don't worry! It occurs. Please enter the email address linked with your account",
                 style: TextStyle(
                   color: Color(0xFF67686D),
                   fontSize: 16,
                 ),
               ),
               const SizedBox(height: 25),
-              InputField.getInputField(
+              InputField(
                 hintText: "Enter Your Email",
                 controller: _emailController,
                 icon: Icons.email,
               ),
               const SizedBox(height: 30),
-              AuthenticationScreenButton.getButton(
+              AuthenticationScreenButton(
                   text: "Send Code", onPress: () {}),
               const SizedBox(height: 5),
               Row(

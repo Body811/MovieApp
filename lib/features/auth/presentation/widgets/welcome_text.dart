@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 
-class WelcomeText {
-  static Widget getText({required String text}) {
+class WelcomeText extends StatelessWidget {
+  final String text;
+
+  // Constructor to accept the text parameter
+  const WelcomeText({
+    super.key,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Text(text,
-        style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700,),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

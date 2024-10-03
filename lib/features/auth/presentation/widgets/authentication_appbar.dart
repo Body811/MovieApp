@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 
 
 
-class AuthenticationAppbar {
-  static AppBar getAppbar(
-      {required BuildContext context, required Color backgroundColor}) {
+class AuthenticationAppbar extends StatelessWidget implements PreferredSizeWidget{
+  final Color backgroundColor;
+
+  const AuthenticationAppbar({
+    super.key,
+    required this.backgroundColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor,
       scrolledUnderElevation: 0,
@@ -38,4 +45,8 @@ class AuthenticationAppbar {
       ),
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
+

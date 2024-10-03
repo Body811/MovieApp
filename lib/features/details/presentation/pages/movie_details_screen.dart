@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/config/config.dart';
-import 'package:movie_app/config/strings/app_strings.dart';
-import 'package:movie_app/config/theme/app_colors.dart';
-import 'package:movie_app/config/theme/app_fonts.dart';
-import 'package:movie_app/features/details/data/data_sources/remote/movie_details/movie_details_service.dart';
-import 'package:movie_app/features/details/data/repository/movie_details_repository_impl.dart';
-import 'package:movie_app/features/details/domain/usecases/get_movie_details_usecase.dart';
-import 'package:movie_app/features/details/domain/entities/movie_details_entity.dart';
 
+import '/config/config.dart';
+import '/config/strings/app_strings.dart';
+import '/config/theme/app_colors.dart';
+import '/config/theme/app_fonts.dart';
+import '/features/details/data/data_sources/remote/movie_details/movie_details_service.dart';
+import '/features/details/data/repository/movie_details_repository_impl.dart';
+import '/features/details/domain/usecases/get_movie_details_usecase.dart';
+import '/features/details/domain/entities/movie_details_entity.dart';
 import '../widgets/about_tab.dart';
 import '../widgets/cast_tab.dart';
 import '../widgets/reviews_tab.dart';

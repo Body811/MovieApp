@@ -1,12 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/config/strings/app_strings.dart';
-import 'package:movie_app/config/theme/app_theme.dart';
-import 'package:movie_app/features/auth/pages/authenticationPages/otp.dart';
-import 'package:movie_app/features/details/presentation/pages/movie_details_screen.dart';
+import 'package:movie_app/features/auth/presentation/authenticationPages/password_changed.dart';
+import 'package:movie_app/firebase_options.dart';
+import 'config/strings/app_strings.dart';
+import 'config/theme/app_theme.dart';
+import 'features/auth/presentation/authenticationPages/login.dart';
 
-import 'features/details/domain/entities/movie_details_entity.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -20,6 +23,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.theme(),
         title: AppStrings.appTitle,
-        home: const MovieDetailsScreen(movieId: 343611));
+        // home: const MovieDetailsScreen(movieId: 343611)
+        // home: const PasswordChanged()
+        home: Login()
+
+    );
   }
 }

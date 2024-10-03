@@ -1,6 +1,8 @@
-import 'package:movie_app/features/details/data/repository/movie_details_repository_impl.dart';
-import 'package:movie_app/features/details/domain/entities/movie_details_entity.dart';
-import 'package:movie_app/usecase/usecase.dart';
+
+import '/features/details/data/repository/movie_details_repository_impl.dart';
+import '/features/details/domain/entities/movie_details_entity.dart';
+import '/usecase/usecase.dart';
+
 
 class GetMovieDetailsUseCase implements UseCase<MovieDetailsEntity, num> {
   final MovieDetailsRepositoryImpl _movieDetailsRepository;

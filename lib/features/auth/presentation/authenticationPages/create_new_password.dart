@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/features/auth/utils/authentication_utils.dart';
+import 'package:movie_app/utils/validation_utils.dart';
+
+import '../widgets/authentication_appbar.dart';
+import '../widgets/authentication_screen_button.dart';
+import '../widgets/password_input_field.dart';
+import '../widgets/welcome_text.dart';
 
 class CreateNewPassword extends StatelessWidget {
   CreateNewPassword({super.key});
@@ -11,15 +16,13 @@ class CreateNewPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AuthenticationAppbar.getAppbar(
-          context: context, backgroundColor: const Color(0xFFFFFFFF)),
+      appBar: const AuthenticationAppbar(backgroundColor: Color(0xFFFFFFFF)),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             image: DecorationImage(
-          image: AssetImage(
-              'assets/Film_elements_on_white_background_with_copy_space.png'),
+          image: AssetImage('assets/images/backgrounds/Film elements on white background with copy space.png'),
           fit: BoxFit.cover,
           alignment: Alignment.bottomCenter,
         )),
@@ -29,17 +32,24 @@ class CreateNewPassword extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 35),
-                WelcomeText.getText(text: "Create new password"),
+                const WelcomeText(text: "Create new password"),
                 const SizedBox(height: 25),
                 PasswordInputField(
-                    text: "New Password", controller: _passwordController),
+                  text: "New Password",
+                  controller: _passwordController,
+                  validator: ValidationUtils.validatePassword,
+                ),
                 const SizedBox(height: 10),
                 PasswordInputField(
-                    text: "Confirm password",
-                    controller: _confirmPasswordController),
+                  text: "Confirm password",
+                  controller: _confirmPasswordController,
+                  validator: (value) => ValidationUtils.validateConfirmPassword(value, _passwordController.text),
+                ),
                 const SizedBox(height: 15),
-                AuthenticationScreenButton.getButton(
-                    text: "Reset Password", onPress: () {}),
+                AuthenticationScreenButton(
+                    text: "Reset Password",
+                    onPress: () {}
+                ),
                 const SizedBox(height: 5),
               ],
             ),

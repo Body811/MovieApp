@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:projectt/user_info.dart';
+import 'package:movie_app/features/user_profile/user_profile.dart';
+import 'package:movie_app/utils/validation_utils.dart';
+
 
 TextEditingController _nameController = TextEditingController();
 TextEditingController _emailController = TextEditingController();
@@ -113,7 +115,7 @@ class _EditProfileState extends State<EditProfile> {
                             : 'No date selected';
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => UserInfo(userName: _nameController.text, country: _selectedCountry! , data: formattedDate, image: _image,)),
+                          MaterialPageRoute(builder: (context) => UserProfile(userName: _nameController.text, country: _selectedCountry! , date: formattedDate, image: _image,)),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -285,10 +287,9 @@ class _EditProfileState extends State<EditProfile> {
     }
 
     // Check password length and strength
-    if (_passwordController.text.length < 6 || !isPasswordStrong(_passwordController.text)) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Password must be at least 6 characters long and include uppercase, lowercase, and a number.')));
-      return;
-    }
+    String? passwordErrorMessage = ValidationUtils.validatePassword(_passwordController.text);
+    passwordErrorMessage != null ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(passwordErrorMessage))):null;
+
 
     // Show loading indicator while uploading
     showDialog(
@@ -322,12 +323,4 @@ class _EditProfileState extends State<EditProfile> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error updating profile: $e')));
     }
   }
-
-  bool isPasswordStrong(String password) {
-    return password.length >= 8 &&
-        password.contains(RegExp(r'[A-Z]')) &&
-        password.contains(RegExp(r'[a-z]')) &&
-        password.contains(RegExp(r'[0-9]'));
-  }
-
 }

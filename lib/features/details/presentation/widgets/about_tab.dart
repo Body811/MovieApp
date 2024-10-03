@@ -3,6 +3,8 @@ import 'package:movie_app/config/theme/app_fonts.dart';
 
 import '../../domain/entities/movie_details_entity.dart';
 
+
+
 class AboutMovieTab extends StatelessWidget {
   final MovieDetailsEntity movieDetail;
 

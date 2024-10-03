@@ -1,3 +1,4 @@
+
 import 'package:movie_app/config/config.dart';
 import 'package:movie_app/features/details/domain/entities/movie_details_entity.dart';
 import 'package:movie_app/features/details/domain/repository/repository.dart';

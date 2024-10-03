@@ -1,17 +1,18 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:projectt/edit_profile.dart';
 
-class UserInfo extends StatelessWidget {
+import 'edit_profile.dart';
+
+class UserProfile extends StatelessWidget {
   final String userName;
-  final String country;
-  final String data ;
+  final String? country;
+  final String? date ;
   final File? image;
 
-  UserInfo({
+  UserProfile({
     required this.userName,
-    required this.country,
-    required this.data,
+     this.country,
+     this.date,
      this.image
   });
 
@@ -26,9 +27,9 @@ class UserInfo extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10, left: 320),
           child: IconButton( // log out
             onPressed: () {
-              Navigator.pop(context); // Close the UserInfo screen
+              Navigator.pop(context); // Close the UserProfile screen
             },
-            icon: Icon(Icons.exit_to_app_sharp, size: 45),
+            icon: const Icon(Icons.exit_to_app_sharp, size: 45),
           ),
         ),
       ),
@@ -39,10 +40,10 @@ class UserInfo extends StatelessWidget {
             maxRadius: 85,
             backgroundImage: image != null ? FileImage(image!) : null,
             child: image == null
-                ? Icon(Icons.person, size: 85) // Fallback icon if no image
+                ? const Icon(Icons.person, size: 85) // Fallback icon if no image
                 : null,
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
 
           Text(
             userName,
@@ -53,8 +54,8 @@ class UserInfo extends StatelessWidget {
             ),
           ),
           Text(
-            data,
-            style: TextStyle(
+            date!,
+            style: const TextStyle(
               fontSize: 25,
               color: Colors.grey,
               fontWeight: FontWeight.bold,
@@ -69,10 +70,10 @@ class UserInfo extends StatelessWidget {
                 color: Colors.grey[700],
                 size: 40,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(
-                country,
-                style: TextStyle(
+                country!,
+                style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
@@ -81,12 +82,12 @@ class UserInfo extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 300),
+          const SizedBox(height: 300),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EditProfile()), // Navigate to EditProfile
+                MaterialPageRoute(builder: (context) => const EditProfile()), // Navigate to EditProfile
               );
             },
             style: ElevatedButton.styleFrom(
@@ -95,8 +96,8 @@ class UserInfo extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 11),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 11),
               child: Text(
                 "Edit Profile",
                 style: TextStyle(
