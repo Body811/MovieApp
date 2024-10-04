@@ -1,5 +1,5 @@
 name: movie_app
-description: "A Movie Flutter App"
+description: "Movie App, get last update movie and movie details."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -29,38 +29,55 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
-    sdk: flutter
-  retrofit: ^4.4.0
-  logger: ^2.4.0  # for logging purpose
-  json_annotation: ^4.9.0
-  dio: ^5.7.0
+   sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
-  intl: ^0.19.0
+
+  flutter_bloc: ^8.1.4
+  dartz: ^0.10.1
+  equatable: ^2.0.3
+  get_it: ^8.0.0
+  internet_connection_checker: ^1.0.0+1
+  http: ^1.2.2
+  shared_preferences: ^2.0.13
+  connectivity_plus: ^4.0.0
+
+  retrofit: ^4.4.0
+  logger: ^2.4.0  # for logging purpose
+  json_annotation: ^4.9.0
+  dio: ^5.7.0
+
   image_picker: ^1.1.2
+  intl: ^0.19.0
   firebase_core: ^3.6.0
   firebase_auth: ^5.3.1
   cloud_firestore: ^5.4.4
   firebase_storage: ^12.3.2
   awesome_snackbar_content: ^0.1.4
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
   retrofit_generator: '>=8.0.0 <10.0.0' # for Dart 3.3 use ^9.0.0
   build_runner: ^2.3.3
   json_serializable: ^6.8.0
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/popcorn.png"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -78,6 +95,8 @@ flutter:
     - assets/images/backgrounds/
     - assets/icons/
     - assets/fonts/
+#  - assets/Film elements on white background with copy space.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -133,7 +152,7 @@ flutter:
           weight: 800
         - asset: assets/fonts/urbanist/Urbanist-Black.ttf
           weight: 900
-  
 
+  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

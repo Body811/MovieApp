@@ -186,8 +186,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
                           Image.asset(Config.ticketIcon, color: AppColors.poloBlue),
                           SizedBox(width: screenWidth * 0.01),
                           Text(
-                            movieDetail.category,
-                            style: AppFonts.header2
+                             '  '+ _getCategories(movieDetail.category),
+                            style: AppFonts.header2,
                           ),
                         ],
                       ),
@@ -244,5 +244,14 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
         },
       ),
     );
+  }
+
+  // Function to get the first two categories before the comma
+  String _getCategories(String category) {
+    // Split the category by comma
+    final categories = category.split(',');
+
+    // Join the first two categories with a comma and return
+    return categories.take(2).join(',\n '); // Return first two categories joined by comma
   }
 }
