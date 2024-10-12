@@ -10,13 +10,13 @@ import '../Params/login_user_params.dart';
 
 
 
-class LoginUserUsecase implements UseCase<UserEntity,LoginUserParams>{
+class LoginUserUsecase implements UseCase<void,LoginUserParams>{
   final LoginRepositoryImpl repository;
 
   LoginUserUsecase({required this.repository});
 
   @override
-  Future<UserEntity> call({LoginUserParams? params}) async {
+  Future<void> call({LoginUserParams? params}) async {
     if(params == null){
       throw ArgumentError('Parameters cant be null');
     }

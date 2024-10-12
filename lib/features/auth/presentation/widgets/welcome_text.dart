@@ -16,7 +16,7 @@ class WelcomeText extends StatelessWidget {
       child: Text(
         text,
         style: const TextStyle(
-          fontSize: 32,
+          fontSize: 28,
           fontWeight: FontWeight.w700,
         ),
       ),

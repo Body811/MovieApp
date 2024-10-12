@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/features/auth/data/repository/register_repository_impl.dart';
 import 'package:movie_app/features/auth/domain/usecases/register_user_usecase.dart';
+import 'package:movie_app/utils/success_snack_bar.dart';
 import '../../../../utils/validation_utils.dart';
 import '../../domain/Params/register_user_params.dart';
 import '../widgets/authentication_appbar.dart';
 import '../widgets/authentication_screen_button.dart';
+import '../../../../utils/error_snack_bar.dart';
 import '../widgets/input_field.dart';
 import '../widgets/password_input_field.dart';
 import '../widgets/welcome_text.dart';
@@ -27,7 +30,7 @@ class _RegisterState extends State<Register> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void _register() {
+  Future<void> _register() async {
     if (_formKey.currentState?.validate() ?? false) {
 
       final String username = _userNameController.text;
@@ -40,15 +43,30 @@ class _RegisterState extends State<Register> {
           firestore: FirebaseFirestore.instance,
         ),
       );
+      try{
+       await registerUserUsecase.call(
+            params: RegisterUserParams(
+                email: email,
+                password: password,
+                username: username
+            )
+        );
+        SuccessSnackBar.show(context, "Registered successfully. Please login.");
+      }on FirebaseAuthException catch(e){
+        ErrorSnackBar.show(context, 'Error ${e.message}.');
+      }catch(e){
+        ErrorSnackBar.show(context, 'An unexpected error occurred.');
+      }
 
-      registerUserUsecase.call(
-          params: RegisterUserParams(
-              email: email,
-              password: password,
-              username: username
-          )
-      );
     }
+  }
+
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _userNameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -103,7 +121,9 @@ class _RegisterState extends State<Register> {
                   const SizedBox(height: 15),
                   AuthenticationScreenButton(
                     text: "Register",
-                    onPress: _register,
+                    onPress: (){
+                      _register();
+                    },
                   ),
                   const SizedBox(height: 5),
                   Row(

@@ -7,7 +7,7 @@ import 'package:movie_app/features/auth/domain/repository/auth_repository.dart';
 
 import '../models/user_model.dart';
 
-class LoginRepositoryImpl implements AuthRepository<UserModel, LoginUserParams>{
+class LoginRepositoryImpl implements AuthRepository<void, LoginUserParams> {
 
   final FirebaseAuth firebaseAuth;
   final FirebaseFirestore firestore;
@@ -18,8 +18,9 @@ class LoginRepositoryImpl implements AuthRepository<UserModel, LoginUserParams>{
   });
 
   @override
-  Future<UserModel> invoke({required LoginUserParams params}) async {
-    UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(
+  Future<void> invoke({required LoginUserParams params}) async {
+    UserCredential userCredential = await firebaseAuth
+        .signInWithEmailAndPassword(
         email: params.email,
         password: params.password
     );
@@ -32,15 +33,5 @@ class LoginRepositoryImpl implements AuthRepository<UserModel, LoginUserParams>{
         message: 'Failed to login user.',
       );
     }
-
-    DocumentSnapshot doc = await firestore.collection('users').doc(user.uid).get();
-
-    if (!doc.exists) {
-      throw FirebaseAuthException(
-        code: 'USER_NOT_FOUND',
-        message: 'User data not found in Firestore.',
-      );
-    }
-    return UserModel.fromMap(doc.data() as Map<String,dynamic>);
   }
 }

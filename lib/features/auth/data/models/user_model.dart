@@ -27,7 +27,6 @@ class UserModel extends UserEntity{
 
   Map<String, dynamic> toMap() {
     return {
-      'uid': uid,
       'email': email,
       'username': username,
       'country': country,

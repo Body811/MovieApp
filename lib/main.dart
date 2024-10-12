@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/features/Movies/presentation/cubit/movies_cubit.dart';
@@ -16,12 +17,16 @@ import 'features/Movies/presentation/pages/SplashScreen_page.dart';
 import 'features/auth/presentation/authenticationPages/login.dart';
 
 
-// import 'package:movie_app/firebase_options.dart';
+import 'package:movie_app/firebase_options.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await FirebaseAppCheck.instance.activate(
+  //   androidProvider: AndroidProvider.playIntegrity,
+  //   appleProvider: AppleProvider.appAttest,
+  // );
   await di.init();
   runApp(const MyApp());
 }

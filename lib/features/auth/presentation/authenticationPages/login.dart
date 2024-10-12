@@ -5,9 +5,9 @@ import 'package:movie_app/features/auth/data/repository/login_repository_impl.da
 import 'package:movie_app/features/auth/domain/entities/user_entity.dart';
 import 'package:movie_app/features/auth/domain/usecases/login_user_usecase.dart';
 import 'package:movie_app/features/auth/presentation/authenticationPages/register.dart';
-import 'package:movie_app/features/auth/presentation/widgets/error_snack_bar.dart';
-import 'package:movie_app/features/user_profile/user_profile.dart';
+import 'package:movie_app/utils/error_snack_bar.dart';
 import 'package:movie_app/utils/validation_utils.dart';
+import '../../../../utils/success_snack_bar.dart';
 import '../../domain/Params/login_user_params.dart';
 import '../widgets/authentication_screen_button.dart';
 import '../widgets/input_field.dart';
@@ -29,6 +29,7 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+
   void _login() async {
     if (_formKey.currentState?.validate() ?? false) {
 
@@ -42,19 +43,25 @@ class _LoginState extends State<Login> {
         ),
       );
       try{
-         UserEntity user = await loginUserUsecase.call(
+        await loginUserUsecase.call(
           params: LoginUserParams(
             email: email,
             password: password,
           )
       );
-         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  UserProfile(userName: user.username)));
+         Navigator.pushReplacementNamed(context, "/home");
       }on FirebaseAuthException catch(e){
         ErrorSnackBar.show(context,'Error ${e.message}.');
       }catch(e){
         ErrorSnackBar.show(context, 'An unexpected error occurred.');
       }
     }
+  }
+
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
