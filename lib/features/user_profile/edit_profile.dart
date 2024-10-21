@@ -87,6 +87,7 @@ class _EditProfileState extends State<EditProfile> {
                 ],
               ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 10,),
                   buildTextField("Name", _nameController),
@@ -96,7 +97,7 @@ class _EditProfileState extends State<EditProfile> {
                   buildTextField("Password", _passwordController, isPassword: true),
                   SizedBox(height: 10,),
                   Padding(
-                    padding: const EdgeInsets.only(right: 240),
+                    padding: const EdgeInsets.only(left: 20),
                     child: Text(
                       "Date Of Birth",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -105,7 +106,8 @@ class _EditProfileState extends State<EditProfile> {
                   buildDateField(),
                   SizedBox(height: 10,),
                   Padding(
-                    padding: const EdgeInsets.only(right: 205),
+
+                    padding: const EdgeInsets.only(left: 20),
                     child: Text(
                       "Country/Region",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -114,25 +116,27 @@ class _EditProfileState extends State<EditProfile> {
                   buildCountryDropdown(),
                   Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: ElevatedButton(
-                      onPressed: (){
-                        String formattedDate = _selectedDate != null
-                            ? DateFormat('dd/MM/yyyy').format(_selectedDate!)
-                            : 'No date selected';
-                            uploadUserDataToFirestore();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.indigo[900],
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                        child: Text(
-                          "Save changes",
-                          style: TextStyle(color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
+                    child: Center(
+                      child: ElevatedButton(
+                        onPressed: (){
+                          String formattedDate = _selectedDate != null
+                              ? DateFormat('dd/MM/yyyy').format(_selectedDate!)
+                              : 'No date selected';
+                              uploadUserDataToFirestore();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo[900],
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                          child: Text(
+                            "Save changes",
+                            style: TextStyle(color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
                         ),
                       ),
                     ),
@@ -147,7 +151,7 @@ class _EditProfileState extends State<EditProfile> {
 
   Padding buildTextField(String label, TextEditingController controller, {bool isPassword = false}) {
     return Padding(
-      padding: const EdgeInsets.only(right: 20, left: 20),
+      padding: const EdgeInsets.only(left: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -185,6 +189,8 @@ class _EditProfileState extends State<EditProfile> {
       child: TextField(
         controller: _dobController,
         decoration: InputDecoration(
+          hintText: 'Enter Date of Birth',
+          hintStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
           border: OutlineInputBorder(),
           suffixIcon: Icon(Icons.calendar_today),
         ),

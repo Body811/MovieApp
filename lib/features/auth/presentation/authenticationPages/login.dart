@@ -50,7 +50,7 @@ class _LoginState extends State<Login> {
             password: password,
           )
       );
-         Navigator.pushReplacementNamed(context, "/home");
+         Navigator.pushReplacementNamed(context, "/main");
          // Navigator.pushReplacementNamed(context, "/profile");
 
       }on FirebaseAuthException catch(e){

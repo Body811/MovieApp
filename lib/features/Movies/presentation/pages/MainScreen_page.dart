@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
     _pages.addAll([
       HomeScreen(),
       SearchScreen(),
-      // UserProfile(userName: 'userName',),
+      UserProfile(),
       ProfileScreen(),
       FavoritesScreen(),
     ]);
