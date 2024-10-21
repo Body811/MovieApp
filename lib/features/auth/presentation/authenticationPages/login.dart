@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:movie_app/features/auth/data/repository/login_repository_impl.dart';
 import 'package:movie_app/features/auth/domain/entities/user_entity.dart';
 import 'package:movie_app/features/auth/domain/usecases/login_user_usecase.dart';
@@ -50,6 +51,8 @@ class _LoginState extends State<Login> {
           )
       );
          Navigator.pushReplacementNamed(context, "/home");
+         // Navigator.pushReplacementNamed(context, "/profile");
+
       }on FirebaseAuthException catch(e){
         ErrorSnackBar.show(context,'Error ${e.message}.');
       }catch(e){
@@ -118,6 +121,7 @@ class _LoginState extends State<Login> {
                 AuthenticationScreenButton(
                     text: "Login",
                     onPress: () {
+                      FocusScope.of(context).unfocus();
                       _login();
                     }
                 ),

@@ -1,4 +1,3 @@
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/features/Movies/presentation/cubit/movies_cubit.dart';
@@ -6,6 +5,7 @@ import 'package:movie_app/features/Movies/presentation/cubit/search_movies_cubit
 import 'package:movie_app/features/Movies/presentation/pages/MainScreen_page.dart';
 import 'package:movie_app/features/Movies/presentation/pages/SearchScreen_page.dart';
 import 'package:movie_app/features/details/presentation/pages/movie_details_screen.dart';
+import 'package:movie_app/features/user_profile/edit_profile.dart';
 import 'config/strings/app_strings.dart';
 import 'config/theme/app_theme.dart';
 import 'core/injection_container.dart' as di;
@@ -19,14 +19,12 @@ import 'features/auth/presentation/authenticationPages/login.dart';
 
 import 'package:movie_app/firebase_options.dart';
 
+import 'features/user_profile/user_profile.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await FirebaseAppCheck.instance.activate(
-  //   androidProvider: AndroidProvider.playIntegrity,
-  //   appleProvider: AppleProvider.appAttest,
-  // );
   await di.init();
   runApp(const MyApp());
 }
@@ -54,6 +52,8 @@ class MyApp extends StatelessWidget {
           '/login': (context) =>  Login(),
           '/main': (context) => MainScreen(),
           '/search': (context) => SearchScreen(),
+          '/editProfile': (context) => EditProfile(),
+          '/profile': (context) => UserProfile()
         },
         onGenerateRoute: (settings) {
           // Handle dynamic routes like 'details/1' or 'details/5'
@@ -62,8 +62,8 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(
           builder: (context) {
           return MovieDetailsScreen(movieId: int.parse(id));  // Pass the dynamic id
-          },
-          );
+              },
+            );
           }
           return null;
         }

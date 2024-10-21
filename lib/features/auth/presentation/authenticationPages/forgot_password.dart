@@ -85,6 +85,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 AuthenticationScreenButton(
                     text: "Send Email",
                     onPress: () {
+                      FocusScope.of(context).unfocus();
                       _sendResetEmail();
                     }
                 ),

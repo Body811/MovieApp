@@ -16,7 +16,7 @@ class AuthenticationAppbar extends StatelessWidget implements PreferredSizeWidge
       backgroundColor: backgroundColor,
       scrolledUnderElevation: 0,
       leading: Padding(
-        padding: const EdgeInsets.all(7.0),
+        padding: const EdgeInsets.only(left: 10,top: 10),
         child: Container(
           width: double.infinity,
           height: double.infinity,

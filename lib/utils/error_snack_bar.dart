@@ -11,6 +11,7 @@ class ErrorSnackBar{
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         duration: const Duration(seconds: 10),
+        padding: EdgeInsets.only(bottom: 10),
         content:AwesomeSnackbarContent(
           title: 'Oh Snap!',
           message: content,

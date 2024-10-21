@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +11,6 @@ import 'package:movie_app/utils/validation_utils.dart';
 
 
 TextEditingController _nameController = TextEditingController();
-TextEditingController _emailController = TextEditingController();
 TextEditingController _passwordController = TextEditingController();
 TextEditingController _dobController = TextEditingController();
 DateTime? _selectedDate;
@@ -49,6 +49,7 @@ class _EditProfileState extends State<EditProfile> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
+          scrolledUnderElevation: 0,
           leading: Padding(
             padding: const EdgeInsets.only(top: 22),
             child: IconButton( // back button
@@ -60,7 +61,7 @@ class _EditProfileState extends State<EditProfile> {
               padding: const EdgeInsets.only(top: 30, right: 85),
               child: Text(
                 "Edit Profile",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -87,22 +88,27 @@ class _EditProfileState extends State<EditProfile> {
               ),
               Column(
                 children: [
+                  SizedBox(height: 10,),
                   buildTextField("Name", _nameController),
-                  buildTextField("Email", _emailController, isEmail: true),
+                  SizedBox(height: 10,),
+
+                  SizedBox(height: 10,),
                   buildTextField("Password", _passwordController, isPassword: true),
+                  SizedBox(height: 10,),
                   Padding(
-                    padding: const EdgeInsets.only(right: 220),
+                    padding: const EdgeInsets.only(right: 240),
                     child: Text(
                       "Date Of Birth",
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                     ),
                   ),
                   buildDateField(),
+                  SizedBox(height: 10,),
                   Padding(
-                    padding: const EdgeInsets.only(right: 175),
+                    padding: const EdgeInsets.only(right: 205),
                     child: Text(
                       "Country/Region",
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                     ),
                   ),
                   buildCountryDropdown(),
@@ -113,10 +119,7 @@ class _EditProfileState extends State<EditProfile> {
                         String formattedDate = _selectedDate != null
                             ? DateFormat('dd/MM/yyyy').format(_selectedDate!)
                             : 'No date selected';
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => UserProfile(userName: _nameController.text, country: _selectedCountry! , date: formattedDate, image: _image,)),
-                        );
+                            uploadUserDataToFirestore();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.indigo[900],
@@ -142,7 +145,7 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Padding buildTextField(String label, TextEditingController controller, {bool isEmail = false, bool isPassword = false}) {
+  Padding buildTextField(String label, TextEditingController controller, {bool isPassword = false}) {
     return Padding(
       padding: const EdgeInsets.only(right: 20, left: 20),
       child: Column(
@@ -150,13 +153,13 @@ class _EditProfileState extends State<EditProfile> {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
           TextField(
             controller: controller,
-            inputFormatters: isEmail ? [FilteringTextInputFormatter.deny(RegExp(r'[\s]'))] : null,
             decoration: InputDecoration(
-              labelText: "Enter your $label",
+              hintText: "Enter your $label",
+              hintStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
               border: OutlineInputBorder(),
               suffixIcon: isPassword
                   ? IconButton(
@@ -170,7 +173,6 @@ class _EditProfileState extends State<EditProfile> {
                   : null,
             ),
             obscureText: isPassword && !_isPasswordVisible,
-            keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
           ),
         ],
       ),
@@ -198,7 +200,8 @@ class _EditProfileState extends State<EditProfile> {
         child: DropdownButtonFormField<String>(
           value: _selectedCountry,
           decoration: InputDecoration(
-            labelText: "Country/Region",
+            hintText: "Country/Region",
+            hintStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),
             border: OutlineInputBorder(),
           ),
           onChanged: (String? newValue) {
@@ -274,15 +277,8 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void uploadUserDataToFirestore() async {
-    if (_nameController.text.isEmpty || _emailController.text.isEmpty || _dobController.text.isEmpty || _selectedCountry == null) {
+    if (_nameController.text.isEmpty || _dobController.text.isEmpty || _selectedCountry == null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please fill all fields.')));
-      return;
-    }
-
-    // Validate email format
-    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-    if (!emailRegex.hasMatch(_emailController.text)) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please enter a valid email.')));
       return;
     }
 
@@ -298,29 +294,33 @@ class _EditProfileState extends State<EditProfile> {
       builder: (context) => Center(child: CircularProgressIndicator()),
     );
 
-    final userRef = FirebaseFirestore.instance.collection('users').doc();
+    User? user = FirebaseAuth.instance.currentUser;
+    final userRef = FirebaseFirestore.instance.collection('users').doc(user?.uid);
     String? imageUrl;
 
-    if (_image != null) {
-      final storageRef = FirebaseStorage.instance.ref().child('user_images').child(userRef.id + '.jpg');
-      await storageRef.putFile(_image!);
-      imageUrl = await storageRef.getDownloadURL();
-    }
-
     try {
+
+      if (_image != null) {
+        final storageRef = FirebaseStorage.instance.ref().child('user_images').child(userRef.id + '.jpg');
+        await storageRef.putFile(_image!);
+        imageUrl = await storageRef.getDownloadURL();
+      }
+
       await userRef.set({
-        'name': _nameController.text,
-        'email': _emailController.text,
-        'password': _passwordController.text,
-        'dob': _dobController.text,
+        'username': _nameController.text,
+        'dateOfBirth': _dobController.text,
         'country': _selectedCountry,
-        'imageUrl': imageUrl,
+        'profilePictureUrl': imageUrl,
       });
-      Navigator.pop(context); // Close loading dialog
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Profile updated successfully!')));
+      await user!.updatePassword(_passwordController.text);
+      // Navigator.pop(context); // Close loading dialog
+      print('testTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+      Navigator.pushReplacementNamed(context, '/profile');
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile updated successfully!',),duration: Duration(seconds: 10),));
     } catch (e) {
-      Navigator.pop(context); // Close loading dialog
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error updating profile: $e')));
+      // Navigator.pop(context); // Close loading dialog
+      Navigator.pushReplacementNamed(context, '/profile');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error updating profile: $e'),duration: Duration(seconds: 10)));
     }
   }
 }

@@ -71,87 +71,87 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AuthenticationAppbar(backgroundColor: Color(0xFFFBFBFB)),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/backgrounds/Curled film stripes isolated white background.png'),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset('assets/images/backgrounds/Curled film stripes isolated white background.png',
             fit: BoxFit.cover,
             alignment: Alignment.bottomCenter,
           ),
         ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(height: 35),
-                  const WelcomeText(text: "Hello! Register to get \nStarted"),
-                  const SizedBox(height: 25),
-                  InputField(
-                    hintText: "Enter Your Username",
-                    controller: _userNameController,
-                    icon: Icons.account_circle,
-                    validator: ValidationUtils.validateUsername,
-                  ),
-                  const SizedBox(height: 10),
-                  InputField(
-                    hintText: "Enter Your Email",
-                    controller: _emailController,
-                    icon: Icons.email,
-                    validator: ValidationUtils.validateEmail,
-                  ),
-                  const SizedBox(height: 10),
-                  PasswordInputField(
-                    text: "Enter your Password",
-                    controller: _passwordController,
-                    validator: ValidationUtils.validatePassword,
-                  ),
-                  const SizedBox(height: 10),
-                  PasswordInputField(
-                    text: "Confirm password",
-                    controller: _confirmPasswordController,
-                    validator: (value) => ValidationUtils.validateConfirmPassword(value, _passwordController.text),
-                  ),
-                  const SizedBox(height: 15),
-                  AuthenticationScreenButton(
-                    text: "Register",
-                    onPress: (){
-                      _register();
-                    },
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Already have an account",
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF1E232C))),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
+        Scaffold(
+          appBar: const AuthenticationAppbar(backgroundColor: Color(0xFFFBFBFB)),
+          body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(height: 35),
+                      const WelcomeText(text: "Hello! Register to get \nStarted"),
+                      const SizedBox(height: 25),
+                      InputField(
+                        hintText: "Enter Your Username",
+                        controller: _userNameController,
+                        icon: Icons.account_circle,
+                        validator: ValidationUtils.validateUsername,
+                      ),
+                      const SizedBox(height: 10),
+                      InputField(
+                        hintText: "Enter Your Email",
+                        controller: _emailController,
+                        icon: Icons.email,
+                        validator: ValidationUtils.validateEmail,
+                      ),
+                      const SizedBox(height: 10),
+                      PasswordInputField(
+                        text: "Enter your Password",
+                        controller: _passwordController,
+                        validator: ValidationUtils.validatePassword,
+                      ),
+                      const SizedBox(height: 10),
+                      PasswordInputField(
+                        text: "Confirm password",
+                        controller: _confirmPasswordController,
+                        validator: (value) => ValidationUtils.validateConfirmPassword(value, _passwordController.text),
+                      ),
+                      const SizedBox(height: 15),
+                      AuthenticationScreenButton(
+                        text: "Register",
+                        onPress: (){
+                          FocusScope.of(context).unfocus();
+                          _register();
                         },
-                        child: const Text(" login Now",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF35C2C1))),
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Already have an account",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF1E232C))),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(" login Now",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF35C2C1))),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+      ],
     );
   }
 }
