@@ -6,5 +6,6 @@ class Config {
   static const ticketIcon = 'assets/icons/ticket.png';
   static const clock = 'assets/icons/clock.png';
   static const calender = 'assets/icons/calenderBlank.png';
-
+  static const favoriteBackgroundImage = 'assets/images/backgrounds/Cinema_concept_with_clapperboard_and_popcorn.png';
+  static const profileIcon = 'assets/icons/profile.png';
 }

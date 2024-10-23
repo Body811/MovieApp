@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/widget/navbar.dart';
+
 class NoInternetPage extends StatefulWidget {
   const NoInternetPage({super.key});
 

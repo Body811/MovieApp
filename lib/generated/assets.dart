@@ -33,5 +33,4 @@ class Assets {
   static const String urbanistUrbanistRegular = 'assets/fonts/urbanist/Urbanist-Regular.ttf';
   static const String urbanistUrbanistSemiBold = 'assets/fonts/urbanist/Urbanist-SemiBold.ttf';
   static const String urbanistUrbanistThin = 'assets/fonts/urbanist/Urbanist-Thin.ttf';
-
 }

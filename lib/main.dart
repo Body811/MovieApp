@@ -15,6 +15,10 @@ import 'features/Movies/presentation/pages/HomeScreen_page.dart';
 import 'features/Movies/presentation/pages/NoInternet_page.dart';
 import 'features/Movies/presentation/pages/SplashScreen_page.dart';
 import 'features/auth/presentation/authenticationPages/login.dart';
+  import 'features/Movies/presentation/pages/SearchScreen_page.dart';
+  import 'package:movie_app/features/favorite/presentation/favorite.dart';
+  import 'features/details/presentation/pages/movie_details_screen.dart';
+  import 'features/user_profile/user_profile.dart';
 
 
 import 'package:movie_app/firebase_options.dart';
@@ -70,5 +74,44 @@ class MyApp extends StatelessWidget {
       )
     );
   }
-}
 
+  class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => di.sl<MoviesCubit>()),
+          BlocProvider(create: (_) => di.sl<SearchMoviesCubit>()),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.theme(),
+          title: AppStrings.appTitle,
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const SplashScreen(),
+            '/main':  (context) => const MainScreen(),
+            '/home': (context) => HomeScreen(),
+            '/noInternet': (context) => const NoInternetPage(),
+            '/login': (context) => Login(),
+            '/search': (context) => SearchScreen(),
+            '/favorite': (context) => FavouriteScreen(),
+            '/profile': (context) => UserProfile(userName: 'havana'),
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name!.startsWith('/details/')) {
+              final id = settings.name!.replaceFirst('/details/', '');
+              return MaterialPageRoute(
+                builder: (context) {
+                  return MovieDetailsScreen(movieId: int.parse(id));
+                },
+              );
+            }
+            return null;
+          },
+        ),
+      );
+    }
+  }
