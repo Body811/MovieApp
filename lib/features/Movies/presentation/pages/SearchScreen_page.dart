@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/theme/app_colors.dart';
 import '../../../../config/theme/app_fonts.dart';
 import '../../../../core/widget/loading_widget.dart';
+import '../../../../core/widget/navbar.dart';
 import '../cubit/search_movies_cubit.dart';
 import '../widgets/message_display_widget.dart';
 import '../widgets/movie_search_widget.dart';

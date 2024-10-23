@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+import '../../core/widget/navbar.dart';
 import 'edit_profile.dart';
 
 class UserProfile extends StatelessWidget {

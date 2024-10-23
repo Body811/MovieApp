@@ -5,6 +5,7 @@ import 'package:movie_app/config/theme/app_fonts.dart';
 import 'package:movie_app/features/Movies/presentation/cubit/movies_cubit.dart';
 
 import '../../../../core/widget/loading_widget.dart';
+import '../../../../core/widget/navbar.dart';
 import '../widgets/message_display_widget.dart';
 import '../widgets/movie_list_widget.dart';
 

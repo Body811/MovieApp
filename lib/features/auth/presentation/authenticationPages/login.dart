@@ -49,7 +49,7 @@ class _LoginState extends State<Login> {
             password: password,
           )
       );
-         Navigator.pushReplacementNamed(context, "/home");
+         Navigator.pushReplacementNamed(context, "/main");
       }on FirebaseAuthException catch(e){
         ErrorSnackBar.show(context,'Error ${e.message}.');
       }catch(e){

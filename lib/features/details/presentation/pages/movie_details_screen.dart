@@ -1,5 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/core/widget/navbar.dart';
+import 'package:movie_app/features/favorite/data/data_sources/user_favorite/userFavoriteService.dart';
+import 'package:movie_app/features/favorite/data/repository/favorite_repository.dart';
+import 'package:movie_app/features/favorite/domain/entities/favoriteEntity.dart';
+import 'package:movie_app/features/favorite/domain/usecases/deleteFavoriteItemUseCase.dart';
+import 'package:movie_app/features/favorite/domain/usecases/saveFavoriteItemUseCase.dart';
 
 import '/config/config.dart';
 import '/config/strings/app_strings.dart';
@@ -27,6 +35,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
 
   late Future<MovieDetailsEntity> movieDetails;
   late TabController _tabController;
+  bool toggle = false;
 
   @override
   void initState() {
@@ -69,8 +78,17 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.favorite_border),
+            onPressed: () async {
+              setState(() {
+                toggle = !toggle;
+              });
+              if (toggle) {
+                _saveFavorite();
+              } else {
+                _removeFavorite();
+              }
+            },
+            icon: toggle ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
           ),
         ],
       ),
@@ -253,5 +271,53 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
 
     // Join the first two categories with a comma and return
     return categories.take(2).join(',\n '); // Return first two categories joined by comma
+  }
+
+  void _saveFavorite() async {
+    var details = await movieDetails;
+    final User? user = FirebaseAuth.instance.currentUser;
+    DocumentSnapshot userData = await FirebaseFirestore
+        .instance.collection('users')
+        .doc(user?.uid)
+        .get();
+
+    String username = userData['username'];
+
+    var favoriteEntity= FavoriteEntity(
+        details.releaseDate,
+        details.category,
+        details.runtime,
+        details.voteAverage,
+        details.title,
+        details.backDropPath,
+        username
+    );
+
+    final saveFavoriteUseCase = SaveFavoriteItemUseCase(
+        FavoriteRepository(
+            UserFavoriteService()
+        )
+    );
+
+    await saveFavoriteUseCase.call(params: {'data' : favoriteEntity});
+  }
+
+  void _removeFavorite() async {
+    var details = await movieDetails;
+    final User? user = FirebaseAuth.instance.currentUser;
+    DocumentSnapshot userData = await FirebaseFirestore
+        .instance.collection('users')
+        .doc(user?.uid)
+        .get();
+
+    String username = userData['username'];
+
+    final removeFavoriteUseCase = DeleteFavoriteItemUseCase(
+        FavoriteRepository(
+            UserFavoriteService()
+        )
+    );
+
+    removeFavoriteUseCase.call(params: {'username': username, 'title': details.title});
   }
 }

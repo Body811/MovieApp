@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:movie_app/features/user_profile/user_profile.dart';
 import 'package:movie_app/utils/validation_utils.dart';
 
+import '../../core/widget/navbar.dart';
+
 
 TextEditingController _nameController = TextEditingController();
 TextEditingController _emailController = TextEditingController();
