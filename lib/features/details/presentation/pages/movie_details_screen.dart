@@ -289,7 +289,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
         details.runtime,
         details.voteAverage,
         details.title,
-        details.backDropPath,
+        details.posterPath,
         username
     );
 
