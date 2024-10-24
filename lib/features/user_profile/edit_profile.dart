@@ -6,11 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:movie_app/features/user_profile/user_profile.dart';
 import 'package:movie_app/utils/validation_utils.dart';
 
-import '../../core/widget/navbar.dart';
-import '../Movies/presentation/pages/MainScreen_page.dart';
 
 
 TextEditingController _nameController = TextEditingController();
