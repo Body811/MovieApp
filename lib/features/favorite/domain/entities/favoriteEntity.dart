@@ -1,5 +1,5 @@
 class FavoriteEntity {
-  final String username;
+  final String email;
   final String releaseDate;
   final String category;
   final num runtime;
@@ -14,11 +14,11 @@ class FavoriteEntity {
       this.voteAverage,
       this.title,
       this.backDropPath,
-      this.username,
+      this.email,
       );
 
   FavoriteEntity.fromJson(Map<String, Object?> json)
-      : username = json['username'] as String,
+      : email = json['email'] as String,
         releaseDate = json['releaseDate'] as String,
         category = json['category'] as String,
         runtime = json['runtime'] as num,
@@ -28,7 +28,7 @@ class FavoriteEntity {
 
   Map<String, Object?> toJson() {
     return {
-      'username': username,
+      'email': email,
       'releaseDate': releaseDate,
       'category': category,
       'runtime': runtime,

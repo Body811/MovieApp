@@ -11,13 +11,13 @@ class DeleteFavoriteItemUseCase implements UseCase<void, Map<String, String>> {
 
   @override
   Future<void> call({Map<String, String>? params}) async {
-    const usernameKey = 'username';
+    const emailKey = 'email';
     const titleKey = 'title';
 
-    if (params != null && params.containsKey(usernameKey) && params.containsKey(titleKey)) {
+    if (params != null && params.containsKey(emailKey) && params.containsKey(titleKey)) {
       try {
-        repo.remove(username: params[usernameKey]!, title: params[titleKey]!);
-        _logger.i('Successfully removed favorite item: ${params[titleKey]} for user: ${params[usernameKey]}');
+        repo.remove(email: params[emailKey]!, title: params[titleKey]!);
+        _logger.i('Successfully removed favorite item: ${params[titleKey]} for user: ${params[emailKey]}');
       } catch (e) {
         _logger.e('Error removing favorite item: $e');
       }

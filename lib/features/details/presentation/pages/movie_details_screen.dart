@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/core/widget/navbar.dart';
+import 'package:movie_app/core/state/icon_state/model/icon_state.dart';
+import 'package:movie_app/core/state/icon_state/network/icon_state_service.dart';
 import 'package:movie_app/features/favorite/data/data_sources/user_favorite/userFavoriteService.dart';
 import 'package:movie_app/features/favorite/data/repository/favorite_repository.dart';
 import 'package:movie_app/features/favorite/domain/entities/favoriteEntity.dart';
@@ -35,7 +36,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
 
   late Future<MovieDetailsEntity> movieDetails;
   late TabController _tabController;
-  bool toggle = false;
+
+  static const _FAVORITE_ICON_ID = 'favoriteIcon';
+  late bool _toggle = false;
 
   @override
   void initState() {
@@ -50,6 +53,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
     );
 
     movieDetails = movieDetailsUseCase.call(params: widget.movieId);
+
+    _fetchFavoriteIconState();
   }
 
   @override
@@ -80,15 +85,19 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
           IconButton(
             onPressed: () async {
               setState(() {
-                toggle = !toggle;
+                _toggle = !_toggle;
               });
-              if (toggle) {
+
+              final iconState = new IconState(iconId: _FAVORITE_ICON_ID, isActive: _toggle);
+              await _saveIconState(iconState);
+
+              if (_toggle) {
                 _saveFavorite();
               } else {
                 _removeFavorite();
               }
             },
-            icon: toggle ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+            icon: _toggle ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
           ),
         ],
       ),
@@ -281,7 +290,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
         .doc(user?.uid)
         .get();
 
-    String username = userData['username'];
+    String email = userData['email'];
 
     var favoriteEntity= FavoriteEntity(
         details.releaseDate,
@@ -290,7 +299,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
         details.voteAverage,
         details.title,
         details.posterPath,
-        username
+        email
     );
 
     final saveFavoriteUseCase = SaveFavoriteItemUseCase(
@@ -310,7 +319,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
         .doc(user?.uid)
         .get();
 
-    String username = userData['username'];
+    String email = userData['email'];
+    print("her $email");
 
     final removeFavoriteUseCase = DeleteFavoriteItemUseCase(
         FavoriteRepository(
@@ -318,6 +328,24 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen>
         )
     );
 
-    removeFavoriteUseCase.call(params: {'username': username, 'title': details.title});
+    removeFavoriteUseCase.call(params: {'email': email, 'title': details.title});
+  }
+
+  Future<void> _saveIconState(IconState iconState) async {
+    var service = IconStateService();
+    await service.saveIconState(iconState, widget.movieId);
+  }
+
+  Future<IconState?> _getIconState(String iconId) async {
+    var service = IconStateService();
+    return service.getIconState(iconId, widget.movieId);
+  }
+
+  void _fetchFavoriteIconState() async {
+    final saveIconState = await _getIconState(_FAVORITE_ICON_ID);
+    setState(() {
+      _toggle = saveIconState?.isActive ?? false;
+      print(_toggle);
+    });
   }
 }

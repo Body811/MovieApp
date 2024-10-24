@@ -17,9 +17,9 @@ class UserFavoriteService implements FirebaseDatasource<FavoriteEntity> {
   }
 
   @override
-  Future<List<FavoriteEntity>> fetch({required String username, Map<String, dynamic>? params}) async {
+  Future<List<FavoriteEntity>> fetch({required String email, Map<String, dynamic>? params}) async {
     final querySnapshot = await _ref
-        .where('username', isEqualTo: username)
+        .where('email', isEqualTo: email)
         .get();
 
     return querySnapshot.docs
@@ -28,9 +28,9 @@ class UserFavoriteService implements FirebaseDatasource<FavoriteEntity> {
   }
 
   @override
-  Future<void> remove({required String username, required String title, Map<String, dynamic>? params}) async {
+  Future<void> remove({required String email, required String title, Map<String, dynamic>? params}) async {
     final querySnapshot = await _ref
-        .where('username', isEqualTo: username)
+        .where('email', isEqualTo: email)
         .where('title', isEqualTo: title)
         .get();
 

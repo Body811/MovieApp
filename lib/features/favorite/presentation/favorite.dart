@@ -5,6 +5,8 @@ import 'package:movie_app/features/favorite/data/data_sources/user_favorite/user
 import 'package:movie_app/features/favorite/data/repository/favorite_repository.dart';
 import 'package:movie_app/features/favorite/domain/usecases/getFavoriteItemUseCase.dart';
 import '../../../config/config.dart';
+import '../../../config/theme/app_colors.dart';
+import '../../../config/theme/app_fonts.dart';
 import '../domain/entities/favoriteEntity.dart';
 
 class FavouriteScreen extends StatefulWidget {
@@ -24,7 +26,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   }
 
   Future<List<FavoriteEntity>> _loadFavoriteMovies() async {
-    final getFavoriteUseCase = GetFavoriteItemUseCase(
+    final getFavoriteUseCase = await GetFavoriteItemUseCase(
       FavoriteRepository(UserFavoriteService()),
     );
 
@@ -36,8 +38,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           .doc(user.uid)
           .get();
 
-      String username = userData['username'];
-      return getFavoriteUseCase.call(params: {'username': username});
+      String email = userData['email'];
+      var res =  await getFavoriteUseCase.call(params: {'email': email});
+      print(res);
+      return res;
     } else {
       return Future.value([]);
     }
@@ -50,7 +54,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorite List'),
+        title: const Text('Favorite'),
+        backgroundColor: AppColors.white,
+        elevation: 4.0,
+        centerTitle: true,  titleTextStyle:
+        const TextStyle(color: AppColors.black, fontWeight: FontWeight.w800, fontSize: 20),
       ),
       body: Stack(
         children: [
@@ -71,7 +79,23 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text('No favorite movies found.'));
+                return const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(image: AssetImage(Config.noFavoriteIcon)),
+                      SizedBox(height: 16),
+                      Text(
+                        'There Is No Movie Yet!',
+                        style: TextStyle(
+                          fontFamily: AppFonts.montserrat,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
+                    ],
+                  ),
+                );
               } else {
                 final movies = snapshot.data!;
                 return ListView.builder(

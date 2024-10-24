@@ -10,10 +10,10 @@ class FavoriteRepository implements IRepository<FavoriteEntity> {
   FavoriteRepository(this._datasource) {}
 
   @override
-  Future<List<FavoriteEntity>> fetch({required String username, Map<String, dynamic>? params}) async {
+  Future<List<FavoriteEntity>> fetch({required String email, Map<String, dynamic>? params}) async {
     var result = [];
     try {
-      result = await _datasource.fetch(username: username, params: params);
+      result = await _datasource.fetch(email: email, params: params);
     } catch(e) {
       _logger.e('Error fetching favorites: $e');
     } finally {
@@ -22,9 +22,9 @@ class FavoriteRepository implements IRepository<FavoriteEntity> {
   }
 
   @override
-  void remove({required String username,  required String title, Map<String, dynamic>? params}) {
+  void remove({required String email,  required String title, Map<String, dynamic>? params}) {
     try {
-       _datasource.remove(username: username, title: title, params: params);
+       _datasource.remove(email: email, title: title, params: params);
     } catch(e) {
       _logger.e('Error fetching favorites: $e');
     }
