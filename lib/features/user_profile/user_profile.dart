@@ -45,15 +45,6 @@ class _UserProfileState extends State<UserProfile> {
               });
             });
           }
-
-          if (imageUrl != null) {
-            String downloadURL = await FirebaseStorage.instance
-                .ref(imageUrl)
-                .getDownloadURL();
-            setState(() {
-              imageUrl = downloadURL;
-            });
-          }
         }
       } catch (e) {
         print('Error fetching user data: $e');
@@ -62,6 +53,7 @@ class _UserProfileState extends State<UserProfile> {
 
     Future<void> _logout() async {
       try {
+
         await FirebaseAuth.instance.signOut();
         Navigator.pushReplacementNamed(context, '/login');
       } catch (e) {
@@ -99,7 +91,7 @@ class _UserProfileState extends State<UserProfile> {
             maxRadius: 85,
             backgroundImage: imageUrl != null
                 ? NetworkImage(imageUrl!)
-                : null, // Load image from Firebase Storage URL
+                : null,
             child: imageUrl == null
                 ? const Icon(Icons.person, size: 85) // Fallback icon if no image
                 : null,
@@ -146,11 +138,9 @@ class _UserProfileState extends State<UserProfile> {
 
           const SizedBox(height: 300),
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const EditProfile()), // Navigate to EditProfile
-              );
+            onPressed: () async {
+             await Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile(userName: userName, country: country, dateOfBirth: date, profilePictureUrl: imageUrl,email: email)));
+              _getUserData();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.indigo[900],

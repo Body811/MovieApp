@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/config/theme/app_colors.dart';
 
+import '../../../favorite/presentation/favorite.dart';
 import '../../../user_profile/user_profile.dart';
 import 'HomeScreen_page.dart';
 import 'SearchScreen_page.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int initialIndex;
+  const MainScreen({super.key, this.initialIndex = 0});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -20,12 +22,12 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.initialIndex;
     _pages.addAll([
       HomeScreen(),
       SearchScreen(),
       UserProfile(),
-      ProfileScreen(),
-      FavoritesScreen(),
+      FavouriteScreen(),
     ]);
   }
 
@@ -68,20 +70,20 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class FavoritesScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Favorites Screen'),
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Profile Screen'),
-    );
-  }
-}
+// class FavoritesScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Center(
+//       child: Text('Favorites Screen'),
+//     );
+//   }
+// }
+//
+// class ProfileScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Center(
+//       child: Text('Profile Screen'),
+//     );
+//   }
+// }

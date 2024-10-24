@@ -51,6 +51,7 @@ class _RegisterState extends State<Register> {
                 username: username
             )
         );
+        Navigator.pushReplacementNamed(context, "/login");
         SuccessSnackBar.show(context, "Registered successfully. Please login.");
       }on FirebaseAuthException catch(e){
         ErrorSnackBar.show(context, 'Error ${e.message}.');

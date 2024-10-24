@@ -11,11 +11,12 @@ class ErrorSnackBar{
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         duration: const Duration(seconds: 10),
-        padding: EdgeInsets.only(bottom: 10),
+        // padding: EdgeInsets.only(bottom: 50),
         content:AwesomeSnackbarContent(
           title: 'Oh Snap!',
           message: content,
           contentType: ContentType.failure,
+          messageTextStyle: TextStyle(fontSize: 12),
         )
       ),
     );

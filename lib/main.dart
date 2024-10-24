@@ -74,44 +74,4 @@ class MyApp extends StatelessWidget {
       )
     );
   }
-
-  class MyApp extends StatelessWidget {
-    const MyApp({super.key});
-
-    @override
-    Widget build(BuildContext context) {
-      return MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => di.sl<MoviesCubit>()),
-          BlocProvider(create: (_) => di.sl<SearchMoviesCubit>()),
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.theme(),
-          title: AppStrings.appTitle,
-          initialRoute: '/',
-          routes: {
-            '/': (context) => const SplashScreen(),
-            '/main':  (context) => const MainScreen(),
-            '/home': (context) => HomeScreen(),
-            '/noInternet': (context) => const NoInternetPage(),
-            '/login': (context) => Login(),
-            '/search': (context) => SearchScreen(),
-            '/favorite': (context) => FavouriteScreen(),
-            '/profile': (context) => UserProfile(userName: 'havana'),
-          },
-          onGenerateRoute: (settings) {
-            if (settings.name!.startsWith('/details/')) {
-              final id = settings.name!.replaceFirst('/details/', '');
-              return MaterialPageRoute(
-                builder: (context) {
-                  return MovieDetailsScreen(movieId: int.parse(id));
-                },
-              );
-            }
-            return null;
-          },
-        ),
-      );
-    }
-  }
+}

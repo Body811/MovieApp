@@ -10,6 +10,7 @@ import 'package:movie_app/features/user_profile/user_profile.dart';
 import 'package:movie_app/utils/validation_utils.dart';
 
 import '../../core/widget/navbar.dart';
+import '../Movies/presentation/pages/MainScreen_page.dart';
 
 
 TextEditingController _nameController = TextEditingController();
@@ -21,8 +22,20 @@ String? _selectedCountry;
 bool _isPasswordVisible = false;
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+  final String? userName;
+  final String? dateOfBirth;
+  final String? country;
+  final String? profilePictureUrl;
+  final String? email;
 
+  const EditProfile({
+    super.key,
+    this.userName,
+    this.dateOfBirth,
+    this.country,
+    this.profilePictureUrl,
+    this.email
+  });
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
@@ -46,18 +59,22 @@ class _EditProfileState extends State<EditProfile> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _nameController.text = widget.userName??'';
+    _passwordController.text = '';
+    _dobController.text = widget.dateOfBirth??'';
+    _selectedCountry = widget.country;
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
           scrolledUnderElevation: 0,
-          leading: Padding(
-            padding: const EdgeInsets.only(top: 22),
-            child: IconButton( // back button
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(Icons.arrow_back_ios_rounded)),
-          ),
           title: Center(
             child: Padding(
               padding: const EdgeInsets.only(top: 30, right: 85),
@@ -76,7 +93,11 @@ class _EditProfileState extends State<EditProfile> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   CircleAvatar(
-                    backgroundImage: _image == null ? null : FileImage(_image!),
+                    backgroundImage:_image != null
+                        ? FileImage(_image!)
+                        : (widget.profilePictureUrl != null
+                        ? NetworkImage(widget.profilePictureUrl!)
+                        : null),
                     maxRadius: 80,
                   ),
                   GestureDetector(
@@ -153,7 +174,7 @@ class _EditProfileState extends State<EditProfile> {
 
   Padding buildTextField(String label, TextEditingController controller, {bool isPassword = false}) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20),
+      padding: const EdgeInsets.only(left: 20,right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -292,8 +313,10 @@ class _EditProfileState extends State<EditProfile> {
 
     // Check password length and strength
     String? passwordErrorMessage = ValidationUtils.validatePassword(_passwordController.text);
-    passwordErrorMessage != null ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(passwordErrorMessage))):null;
-
+    if(passwordErrorMessage != null ){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(passwordErrorMessage)));
+      return;
+    }
 
     // Show loading indicator while uploading
     showDialog(
@@ -312,22 +335,22 @@ class _EditProfileState extends State<EditProfile> {
         final storageRef = FirebaseStorage.instance.ref().child('user_images').child(userRef.id + '.jpg');
         await storageRef.putFile(_image!);
         imageUrl = await storageRef.getDownloadURL();
+      }else{
+        imageUrl = widget.profilePictureUrl;
       }
-
       await userRef.set({
         'username': _nameController.text,
         'dateOfBirth': _dobController.text,
         'country': _selectedCountry,
         'profilePictureUrl': imageUrl,
+        'email': widget.email
       });
       await user!.updatePassword(_passwordController.text);
-      // Navigator.pop(context); // Close loading dialog
-      print('testTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-      Navigator.pushReplacementNamed(context, '/profile');
+      Navigator.pop(context); // Close loading dialog
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile updated successfully!',),duration: Duration(seconds: 10),));
     } catch (e) {
-      // Navigator.pop(context); // Close loading dialog
-      Navigator.pushReplacementNamed(context, '/profile');
+      Navigator.pop(context); // Close loading dialog
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error updating profile: $e'),duration: Duration(seconds: 10)));
     }
   }
