@@ -15,15 +15,10 @@ import 'features/Movies/presentation/pages/HomeScreen_page.dart';
 import 'features/Movies/presentation/pages/NoInternet_page.dart';
 import 'features/Movies/presentation/pages/SplashScreen_page.dart';
 import 'features/auth/presentation/authenticationPages/login.dart';
-  import 'features/Movies/presentation/pages/SearchScreen_page.dart';
-  import 'package:movie_app/features/favorite/presentation/favorite.dart';
-  import 'features/details/presentation/pages/movie_details_screen.dart';
-  import 'features/user_profile/user_profile.dart';
+import 'features/user_profile/user_profile.dart';
 
 
 import 'package:movie_app/firebase_options.dart';
-
-import 'features/user_profile/user_profile.dart';
 
 
 void main() async {
